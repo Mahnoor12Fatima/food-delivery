@@ -85,7 +85,7 @@ const navigate = useNavigate();
   
   {/* Edit Icon */}
 <svg
-  onClick={() => navigate(`/edit/${item._id}`)}
+  onClick={() => navigate(`/admin/edit/${item._id}`)}
   xmlns="http://www.w3.org/2000/svg"
   fill="none"
   viewBox="0 0 24 24"

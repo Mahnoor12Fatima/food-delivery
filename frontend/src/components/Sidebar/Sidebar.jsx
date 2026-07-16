@@ -21,7 +21,7 @@ const Sidebar = () => {
 
         {/* ADD ITEMS */}
         <NavLink
-          to="/add"
+          to="/admin/add"
           className={({ isActive }) =>
             `
               flex items-center gap-3
@@ -38,7 +38,7 @@ const Sidebar = () => {
 
         {/* LIST ITEMS */}
         <NavLink
-          to="/list"
+          to="/admin/list"
           className={({ isActive }) =>
             `
               flex items-center gap-3
@@ -55,7 +55,7 @@ const Sidebar = () => {
 
         {/* ORDERS */}
         <NavLink
-          to="/orders"
+          to="/admin/orders"
           className={({ isActive }) =>
             `
               flex items-center gap-3

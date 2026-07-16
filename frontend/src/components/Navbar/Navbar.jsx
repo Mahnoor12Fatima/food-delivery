@@ -3,18 +3,26 @@ import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import { Profiler } from "react";
-
+import { toast } from "react-toastify";
 const Navbar = ({setShowLogin}) => {
   const [menu, setMenu] = useState("home");
   const [isOpen, setIsOpen] = useState(false); // for mobile menu toggle
   const {getTotalCartAmount,token,setToken, getTotalCartItems}=useContext(StoreContext);
 
   const navigate=useNavigate();
-  const logout=()=>{
-    localStorage.removeItem("token");
-    setToken("");
-    navigate("/");
-  }
+  const role = localStorage.getItem("role");
+const isAdmin = role === "admin";
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("currentUser");
+
+  setToken("");
+
+  toast.success("Logged out successfully!");
+
+  navigate("/");
+};
   return (
     <div className="relative">
       {/* Navbar Container */}
@@ -24,68 +32,74 @@ const Navbar = ({setShowLogin}) => {
         <img src={assets.logo} alt="Logo" className="w-36" />
 </Link>
         {/* Desktop Menu */}
-        <ul className="hidden md:flex list-none gap-8 text-[#49557e] text-lg">
-          <li
-            onClick={() => setMenu("home")}
-            className={`cursor-pointer pb-1 ${
-              menu === "home" ? "border-b-2 border-[#49557e]" : ""
-            }`}
-          >
-            <Link to="/" onClick={() => setMenu("home")}>
-              Home
-            </Link>
-          </li>
+       {/* Desktop Menu */}
+{!isAdmin && (
+  <ul className="hidden md:flex list-none gap-8 text-[#49557e] text-lg">
+    <li
+      onClick={() => setMenu("home")}
+      className={`cursor-pointer pb-1 ${
+        menu === "home" ? "border-b-2 border-[#49557e]" : ""
+      }`}
+    >
+      <Link to="/">Home</Link>
+    </li>
 
-          <li
-            onClick={() => setMenu("menu")}
-            className={`cursor-pointer pb-1 ${
-              menu === "menu" ? "border-b-2 border-[#49557e]" : ""
-            }`}
-          >
-            <a href="#explore-menu" onClick={() => setMenu("menu")}>
-              Menu
-            </a>
-          </li>
+    <li
+      onClick={() => setMenu("menu")}
+      className={`cursor-pointer pb-1 ${
+        menu === "menu" ? "border-b-2 border-[#49557e]" : ""
+      }`}
+    >
+      <a href="#explore-menu">Menu</a>
+    </li>
 
-          <li
-            onClick={() => setMenu("mobile-app")}
-            className={`cursor-pointer pb-1 ${
-              menu === "mobile-app" ? "border-b-2 border-[#49557e]" : ""
-            }`}
-          >
-            <a  href="#app-download" onClick={() => setMenu("mobile-app")}>
-              Mobile-app
-            </a>
-          </li>
+    <li
+      onClick={() => setMenu("mobile-app")}
+      className={`cursor-pointer pb-1 ${
+        menu === "mobile-app" ? "border-b-2 border-[#49557e]" : ""
+      }`}
+    >
+      <a href="#app-download">Mobile-app</a>
+    </li>
 
-          <li
-            onClick={() => setMenu("contact-us")}
-            className={`cursor-pointer pb-1 ${
-              menu === "contact-us" ? "border-b-2 border-[#49557e]" : ""
-            }`}
-          >
-            <a href="#footer" onClick={() => setMenu("contact-us")}>
-              Contact-us
-            </a>
-          </li>
-        </ul>
+    <li
+      onClick={() => setMenu("contact-us")}
+      className={`cursor-pointer pb-1 ${
+        menu === "contact-us" ? "border-b-2 border-[#49557e]" : ""
+      }`}
+    >
+      <a href="#footer">Contact-us</a>
+    </li>
+  </ul>
+)}
 
         {/* Right Section (Desktop only) */}
       <div className="hidden lg:flex items-center gap-6">
-  <img src={assets.search_icon} alt="Search" className="w-6 h-6 cursor-pointer" />
+ {!isAdmin && (
+  <>
+    <img
+      src={assets.search_icon}
+      alt="Search"
+      className="w-6 h-6 cursor-pointer"
+    />
 
- <div className="relative cursor-pointer">
-  <Link to="/cart">
-    <img src={assets.basket_icon} alt="Basket" className="w-6 h-6" />
-  </Link>
+    <div className="relative cursor-pointer">
+      <Link to="/cart">
+        <img
+          src={assets.basket_icon}
+          alt="Basket"
+          className="w-6 h-6"
+        />
+      </Link>
 
-  {/* 🔴 ITEM COUNT BADGE */}
-  {getTotalCartItems() > 0 && (
-    <div className="absolute top-[-8px] right-[-8px] bg-[tomato] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
-      {getTotalCartItems()}
+      {getTotalCartItems() > 0 && (
+        <div className="absolute top-[-8px] right-[-8px] bg-[tomato] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+          {getTotalCartItems()}
+        </div>
+      )}
     </div>
-  )}
-</div>
+  </>
+)}
 
   {!token ? (
     <button
@@ -100,10 +114,18 @@ const Navbar = ({setShowLogin}) => {
 
   <ul className="navbar-profile-dropdown absolute right-0 w-36 bg-white shadow-md rounded-md 
                  hidden group-hover:block z-50">
-    <li onClick={()=>navigate('/myorders')} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+{!isAdmin && (
+  <>
+    <li
+      onClick={() => navigate("/myorders")}
+      className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+    >
       <img src={assets.bag_icon} alt="" className="w-4 h-4" />
       <p>Orders</p>
     </li>
+    <hr />
+  </>
+)}
     <hr />
     <li
       onClick={logout}
@@ -131,7 +153,7 @@ const Navbar = ({setShowLogin}) => {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
+     {isOpen && !isAdmin && (
         <div className="md:hidden absolute top-[70px] left-0 w-full bg-white shadow-md z-50">
           <ul className="flex flex-col items-center gap-6 py-6 text-[#49557e] text-lg">
             <li onClick={() => { setMenu("home"); setIsOpen(false); }}>
