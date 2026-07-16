@@ -1,0 +1,20 @@
+npm init
+npm i cors dotenv express mongoose validator
+
+	in package.json add:
+		"type": "module",
+  		"scripts": {
+   		"start": "nodemon index.js",
+    		"dev": "node index.js"
+  		},
+
+	create config.env:for secret variables for deployment
+		add port
+		frontend url
+		mongodb url
+
+MONGO db: CREATE PROJECT THEN ADD CLUSTER add user add connection method
+
+	create app.js
+	create index.js
+	create env: add mongo-url for connection add password and projectname

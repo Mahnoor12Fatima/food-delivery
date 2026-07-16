@@ -1,0 +1,41 @@
+npm create vite@latest
+cd frontend
+npm i
+npm i react router dom
+npm run dev
+install extenstion es7 and remove and write rafce
+create folder 
+	component:Navbar,Header,Exploremenu,fooddisplay
+	pages:Home,cart,Placeorder
+app.jsx:mount navbar <Navbar/> 
+Home.jsx:mount Header <Header/>,explore menu <ExploreMenu/>
+assets:add imgs and then import imgs and export obj in js file
+
+Router:import BrowserRouter and wrap App into it
+	add <Routes> tag in app.jsx and add multiple routes in between
+	add links in the list of Navbar
+
+Create context api:storecontextprovider
+add it in main.jsx and then use anywhere
+
+Food Item:
+	This component displays a single food item (image, name, price, etc.) and allows the user to add or remove 	it from their order.
+	You’re receiving props (id, name, etc.) from the parent component (FoodDisplay).
+	You’re using useState(0) to track how many times this item has been added to the cart.
+		code:
+		If itemCount === 0 → show a single “add” (+) button.
+		If itemCount > 0 → show a counter with “–” and “+” icons.
+
+Food Display:
+	This component shows a list/grid of all food items using FoodItem components
+		code:
+		It uses React Context (StoreContext) to get the global list of food items (food_list).
+		Loops through food_list and passes each item’s data to a FoodItem component.
+		Each card shows one food’s details.
+
+store context:IF product is added 1st time in the cart
+	      IF product is added in the cart but its quantity is more than 1
+	      remove from the cart
+	      THEN Pass all to food item
+Add condition to filter product
+
