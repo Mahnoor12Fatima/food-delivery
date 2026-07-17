@@ -13,8 +13,8 @@ import orderRouter from "./routes/orderRoute.js";
 const app=express();
 const PORT=process.env.PORT || 4000;
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
+  "https://food-delivery-frontend-green.vercel.app",
+  "https://food-delivery-frontend-d86vjwu8s.vercel.app",
 ];
 app.use(express.json());//middleware\
 app.use(
