@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 export const StoreContext=createContext(null); 
 const StoreContextProvider=(props)=>{
     const [cartItems,setCartItems]=useState({});
-    const url="food-delivery-production-44be.up.railway.app";
+    const url = "https://food-delivery-production-44be.up.railway.app";
     const [token,setToken]=useState("");
     const [food_list,setFoodList]=useState([]);
     const fetchFoodList=async()=>{
